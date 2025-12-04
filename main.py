@@ -1,4 +1,8 @@
-#### Imports et définition des variables globales
+"""Encodage simple de chaînes en tuples (caractère, count).
+
+Fournit deux implémentations : itérative (`artcode_i`) et récursive
+(`artcode_r`).
+"""
 
 # Mandatory for the recursive solution to work on large inputs
 import sys
@@ -9,43 +13,55 @@ sys.setrecursionlimit(2000)
 
 
 def artcode_i(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme itératif
+    """Encodage itératif.
 
     Args:
-        s (str): la chaîne de caractères à encoder
+        s (str): chaîne à encoder
 
     Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
+        list[tuple]: liste (caractère, nombre d'occurrences)
     """
-    
-    # votre code ici
 
-    return [ ]
+    if not s:
+        return []
+
+    result = []
+    current = s[0]
+    count = 1
+
+    for ch in s[1:]:
+        if ch == current:
+            count += 1
+        else:
+            result.append((current, count))
+            current = ch
+            count = 1
+
+    result.append((current, count))
+    return result
 
 
 def artcode_r(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme récursif
+    """Encodage récursif
 
-    Args:
-        s (str): la chaîne de caractères à encoder
-
-    Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
+    Retourne la même sortie que `artcode_i` mais calculée récursivement.
     """
-    
-    # votre code ici
 
-    # cas de base
-    # recherche nombre de caractères identiques au premier
-    # appel récursif
+    if not s:
+        return []
 
-    return []
-    
+    first_char = s[0]
+    idx = 1
+    while idx < len(s) and s[idx] == first_char:
+        idx += 1
+
+    return [(first_char, idx)] + artcode_r(s[idx:])
 
 #### Fonction principale
 
 
 def main():
+    """Tester rapidement les fonctions."""
     print(artcode_i('MMMMaaacXolloMM'))
     print(artcode_r('MMMMaaacXolloMM'))
 
